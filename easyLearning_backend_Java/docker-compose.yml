@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+   postgres:
+     container_name: e_learning
+     image: postgres:alpine
+     ports:
+       - "5432:5432"
+     environment:
+       POSTGRES_DB: learning
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: password
+
+   backend:
+     build: .
+     environment:
+       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/learning
+       SPRING_DATASOURCE_USERNAME: postgres
+       SPRING_DATASOURCE_PASSWORD: password
+     ports:
+       - "8080:8080"
+     depends_on:
+       - postgres
